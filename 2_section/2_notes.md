@@ -26,4 +26,13 @@
   - Pass by value: This is where the value of the actual parameter is copied into the formal parameter declared in the function's prototype.
   - Pass by address: This is where the memory address of the actual parameters are passed to the function. This is useful when you wish to alter the actual parameters passed to the helper function.
   - Pass by reference: variable passed by reference (C++) or by pointer (C).
-- 
+
+### Video 19 Notes
+- Arrays can only be passed by reference/pointer as a parameter to a function.
+- Structs can be pass by value or by reference.
+- If the struct has an array in it, a copy of this array will be created in the helper function if the struct is passed by value. 
+
+### Video 21 Notes
+- Throughout this course, we will be using helper functions to initialise, modify and delete any structs declared in the main function or via malloc()
+- This is the highest form of programming that can be done in C, and is as close to OOP as we can get in C.
+- The C++ examples shown in the course will use classes.
