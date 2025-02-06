@@ -36,3 +36,9 @@
 - Throughout this course, we will be using helper functions to initialise, modify and delete any structs declared in the main function or via malloc()
 - This is the highest form of programming that can be done in C, and is as close to OOP as we can get in C.
 - The C++ examples shown in the course will use classes.
+
+### Video 29 Noties
+- C++ allows you to create template classes. 
+- Such classes are declared using the generic datatype 'T'.
+- When an instance of the class is instantiated, you must declare the datatype: int, float or char.
+- In C, generics can be achieved by using void pointers, which are later typecasted, or by using macros.
