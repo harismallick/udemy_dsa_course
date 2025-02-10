@@ -34,4 +34,13 @@
 
 ### Video 43 Notes
 - Abstract data types (ADT)
-- 
+- Each datatype has its representation and group of operations that can be performed on the datatype.
+- Abstract datatypes are created by the programmer using OOP.
+- int, float, bool, char and byte are considered primitive datatypes.
+- A combination of OOP and primitive datatypes can be done to create abstract data types, like in Python, there are Lists, Dictionaries, Sets.
+- ADT will be covered in more detail in later lessons.
+
+### Video 44 Notes
+- Depending on the type of operation being performed, the time of execution for the overall program is either linear, quadratic, logarithmic or instant -> O(1).
+- The total time complexity for a program can be determined by summing the big-O of all the functions and executions that make up the program.
+
