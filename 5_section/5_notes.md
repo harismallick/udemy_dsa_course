@@ -197,3 +197,9 @@ void func2(int n)
     }
 ```
 
+###### Sum on n natual numbers
+- An O(n) solution to this problem is to use recursion or loop.
+- The O(1) constant time solution to this problem is to use the formula:
+```
+    sum = n*(n+1)/2
+```
