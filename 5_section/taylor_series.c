@@ -5,6 +5,7 @@
 
 double e(int x, int n);
 double e2(int x, int n);
+double e3(int x, int n);
 
 int main()
 {
@@ -13,6 +14,7 @@ int main()
     printf("e^%d using %d terms is: %lf\n", x, n, e(x, n));
     // result using many recursive functions combined:
     printf("e^%d using %d terms is: %lf\n", x, n, e2(x, n));
+    printf("Result using Horner's rule: %lf\n", e3(x, n));
     return 0;
 }
 
@@ -50,3 +52,16 @@ double e2(int x, int n)
 // e(x, n) = e(x, n-1) + x^n/n!
 // The function returns the value of e^x using n terms of the Taylor series expansion.
 // The main function calls the e function to calculate e^2 using 4 terms of the Taylor series expansion and prints the result.
+
+// Taylor sereis with Horner's rule:
+// This reduces the number of multiplication operations from n^2 to n.
+double e3(int x, int n)
+{
+    static double s = 1;
+    if (n == 0)
+    {
+        return s;
+    }
+    s = 1 + x * s / n;
+    return e3(x, n - 1);
+}
