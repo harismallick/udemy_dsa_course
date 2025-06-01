@@ -1,3 +1,5 @@
+#include<math.h>
+#include<stdbool.h>
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -19,6 +21,17 @@ typedef struct
 void list_print(List arr);
 int list_append(List* arr, int num);
 int list_insert(List* arr, int num, int position);
+int list_delete(List* arr, int index);
+int list_linear_search(List* arr, int num);
+void swap_values(int* x, int* y);
+int list_binary_search(List* arr, int num);
+void bubble_sort(int *nums_list, int length);
+int list_get(List* arr, int index); // get element at index.
+int list_set(List* arr, int index, int num); // set index to particular value
+int list_max(List* arr);
+int list_min(List* arr);
+int list_sum(List *arr);
+float list_average(List *arr);
 
 int main()
 {
@@ -48,6 +61,28 @@ int main()
     list_print(arr);
     list_insert(arr_p, 8, 3);
     list_print(arr);
+    list_delete(arr_p, 2);
+    list_print(arr);
+    printf("%d\n", list_linear_search(arr_p, 4));
+    list_print(arr); // Check for the element swap;
+    printf("%d\n", list_linear_search(arr_p, 14));
+    bubble_sort(arr.array, arr.length);
+    printf("The array after being sorted:\n");
+    list_print(arr);
+    printf("%d\n", list_binary_search(arr_p, 4));
+    printf("%d\n", list_binary_search(arr_p, 14));
+
+    // List operations:
+    //get
+    printf("The number at index %d is %d\n", 3, list_get(arr_p, 3));
+    //set
+    list_set(arr_p, 1, 3);
+    printf("The list after set operation:\n");
+    list_print(arr);
+    printf("The largest number in the list: %d\n", list_max(arr_p));
+    printf("The smallest number in the list: %d\n", list_min(arr_p));
+    printf("The sum of the list is %d\n", list_sum(arr_p));
+    printf("The average of the list is %f\n", list_average(arr_p));
     return 0;
 }
 
@@ -97,4 +132,173 @@ int list_insert(List* arr, int num, int position)
     arr->array[position] = num;
     arr->length++;
     return 0;
+}
+
+int list_delete(List* arr, int index)
+{
+    if (index >= arr->size || index < 0)
+    {
+        printf("The index is out of range.\n");
+        return 1;
+    }
+    for (int i = index; i < arr->length; i++)
+    {
+        arr->array[i] = arr->array[i+1];
+    }
+    arr->length--;
+    return 0;
+}
+
+
+void swap_values(int* x, int* y)
+{
+    int temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
+int list_linear_search(List* arr, int num)
+{
+    for (int i = 0; i < arr->length; i++)
+    {
+        if (arr->array[i] == num)
+        {
+            swap_values(&arr->array[i], &arr->array[i-1]);
+            return i;
+        }
+    }
+    return -1;
+    // To speed up future searches, two things can be done:
+    // 1. Transposition - The search element is moved one position up the array for each search action.
+    // This means that element that are searched the most will be in the front of the list, for faster compute.
+    // 2. Move to front - As the name suggests, move the searched element to index 0.
+    // Thus if the same element is searched again, its O(n) would be O(1).
+}
+
+void bubble_sort(int *nums_list, int length)
+{
+    bool swap = true;
+    int swap_count = 0;
+    while (swap)
+    {
+        swap_count = 0;
+        for (int i = 0; i < length; i++)
+        {
+            if (nums_list[i] < nums_list[i-1])
+            {
+                swap_values(&nums_list[i], &nums_list[i-1]);
+                swap_count++;
+            }
+        }
+        if (swap_count == 0)
+        {
+            swap = false;
+        }
+    }
+}
+
+int list_binary_search(List* arr, int num)
+{
+    int start = 0;
+    int end = arr->length - 1;
+    
+    while (start <= end)
+    {
+        int middle = floor((start + end) / 2);
+        if (arr->array[middle] == num)
+        {
+            return middle;
+        }
+        else if (arr->array[middle] < num)
+        {
+            start = middle + 1;
+        }
+        else
+        {
+            end = middle - 1;
+        }
+    }
+    return -1;
+}
+
+int list_get(List* arr, int index)
+{
+    if (index < 0 || index > arr->length - 1)
+    {
+        printf("Index out of range\n");
+        return -1;
+    }
+    return arr->array[index];
+}
+
+int list_set(List* arr, int index, int num)
+{
+    if (index < 0 || index > arr->length - 1)
+    {
+        printf("Index out of range\n");
+        return 1;
+    }
+    arr->array[index] = num;
+    return 0;
+}
+
+int list_max(List* arr)
+{
+    if (arr->length == 0)
+    {
+        printf("The list is empty!\n");
+        return -1;
+    }
+    int max = arr->array[0];
+    for (int i = 1; i < arr->length; i++)
+    {
+        if (arr->array[i] > max)
+        {
+            max = arr->array[i];
+        }
+    }
+    return max;
+}
+
+int list_min(List* arr)
+{
+    if (arr->length == 0)
+    {
+        printf("The list is empty!\n");
+        return -1;
+    }
+    int min = arr->array[0];
+    for (int i = 1; i < arr->length; i++)
+    {
+        if (arr->array[i] < min)
+        {
+            min = arr->array[i];
+        }
+    }
+    return min;
+}
+
+int list_sum(List *arr)
+{
+    if (arr->length == 0)
+    {
+        printf("The list is empty!\n");
+        return -1;
+    }
+    int sum = 0;
+    for (int i = 0; i < arr->length; i++)
+    {
+        sum = sum + arr->array[i];
+    }
+    return sum;
+}
+
+float list_average(List *arr)
+{
+    if (arr->length == 0)
+    {
+        printf("The list is empty!\n");
+        return -1;
+    }
+    return (float)list_sum(arr) / arr->length;
 }
