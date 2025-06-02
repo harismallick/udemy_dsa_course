@@ -1,3 +1,4 @@
+#include<ctype.h>
 #include<math.h>
 #include<stdbool.h>
 #include<stdio.h>
@@ -32,6 +33,12 @@ int list_max(List* arr);
 int list_min(List* arr);
 int list_sum(List *arr);
 float list_average(List *arr);
+void list_reverse(List* arr);
+void list_rotation(List* arr, char direction);
+bool list_is_sorted(List* arr);
+void list_sorted_insert(List* arr, int num); // insert into a sorted list
+void list_separate_positives_negatives(List* arr); // separate positive and negative numbers into different sections
+char list_sort_direction(List* arr); // Check direction of sort - forward or reverse
 
 int main()
 {
@@ -83,6 +90,35 @@ int main()
     printf("The smallest number in the list: %d\n", list_min(arr_p));
     printf("The sum of the list is %d\n", list_sum(arr_p));
     printf("The average of the list is %f\n", list_average(arr_p));
+    // Reverse list:
+    list_reverse(arr_p);
+    printf("The list after reverse operation:\n");
+    list_print(arr);
+    // Left rotation:
+    list_rotation(arr_p, 'l');
+    printf("List after L rotation:\n");
+    list_print(arr);
+    // Right rotation:
+    list_rotation(arr_p, 'r');
+    printf("List after R rotation:\n");
+    list_print(arr);
+    // Check if list is sorted:
+    printf("Is this list sorted?\t%s\n", list_is_sorted(arr_p) ? "True" : "False");
+    // Insert into sorted list:
+    list_sorted_insert(arr_p, 7);
+    printf("The list after a sorted insert operation:\n");
+    list_print(arr);
+    // Separate positive and negative numbers in a list:
+    List arr2 = {{1,-5,0,-3,5,-6, 9, -10}, 20, 8};
+    list_separate_positives_negatives(&arr2);
+    printf("Negatives and positives separated:\n");
+    list_print(arr2);
+
+    // Merge two lists
+    list_reverse(arr_p);
+    bubble_sort(arr2.array, arr2.length);
+    list_print(arr);
+    list_print(arr2);
     return 0;
 }
 
@@ -182,7 +218,7 @@ void bubble_sort(int *nums_list, int length)
     while (swap)
     {
         swap_count = 0;
-        for (int i = 0; i < length; i++)
+        for (int i = 1; i < length; i++)
         {
             if (nums_list[i] < nums_list[i-1])
             {
@@ -301,4 +337,138 @@ float list_average(List *arr)
         return -1;
     }
     return (float)list_sum(arr) / arr->length;
+}
+
+void list_reverse(List* arr)
+{
+    int start = 0;
+    int end = arr->length - 1;
+    while (start < end)
+    {
+        swap_values(&arr->array[start], &arr->array[end]);
+        start++;
+        end--;
+    }
+}
+
+void list_rotation(List* arr, char direction)
+{
+    int temp;
+    if (tolower(direction) == 'l')
+    {
+        temp = arr->array[0];
+        for (int i = 0; i < arr->length-1; i++)
+        {
+            arr->array[i] = arr->array[i+1];
+        }
+        arr->array[arr->length-1] = temp;
+    }
+    else if (tolower(direction) == 'r')
+    {
+        temp = arr->array[arr->length-1];
+        for (int i = arr->length-1; i > 0; i--)
+        {
+            arr->array[i] = arr->array[i-1];
+        }
+        arr->array[0] = temp;
+    }
+}
+
+bool list_is_sorted(List* arr)
+{
+    bool sorted = true;
+
+    for (int i = 0; i < arr->length-1; i++)
+    {
+        if (arr->array[i] > arr->array[i+1])
+        {
+            sorted = false;
+            break;
+        }
+    }
+    if (!sorted)
+    {
+        sorted = true;
+        for (int i = 0; i < arr->length-1; i++)
+        {
+            if (arr->array[i] < arr->array[i+1])
+            {
+                sorted = false;
+                break;
+            }
+        }
+    }
+
+    return sorted;
+}
+
+char list_sort_direction(List* arr)
+{
+    if (!list_is_sorted(arr))
+    {
+        printf("The given list is not sorted.\n");
+        return 'e';
+    }
+    char direction;
+    if (arr->array[0] < arr->array[1])
+    {
+        direction = 'f';
+    }
+    else
+    {
+        direction = 'r';
+    }
+    return direction;
+}
+
+void list_sorted_insert(List* arr, int num)
+{
+    if (arr->length == arr->size)
+    {
+        printf("The list is full, can't add more elements.");
+        return;
+    }
+    char sort_direction = list_sort_direction(arr);
+    int i = arr->length - 1;
+    if (sort_direction == 'f')
+    {
+        while (arr->array[i] > num)
+        {
+            arr->array[i+1] = arr->array[i];
+            i--;
+        }
+        arr->array[i+1] = num;
+    }
+    else if (sort_direction == 'r')
+    {
+        while (arr->array[i] < num)
+        {
+            arr->array[i+1] = arr->array[i];
+            i--;
+        }
+        arr->array[i+1] = num;
+    }
+    arr->length++;
+}
+
+void list_separate_positives_negatives(List* arr)
+{
+    int pos_tracker = 0;
+    int neg_tracker = arr->length - 1;
+    while (neg_tracker > pos_tracker)
+    {
+        while (arr->array[pos_tracker] < 0)
+        {
+            pos_tracker++;
+        }
+        while (arr->array[neg_tracker] >= 0)
+        {
+            neg_tracker--;
+        }
+        if (neg_tracker > pos_tracker)
+        {
+        swap_values(&arr->array[pos_tracker], &arr->array[neg_tracker]);
+        }
+    }
+
 }
