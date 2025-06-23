@@ -10,7 +10,7 @@
 //     int *array;
 //     int size;
 //     int length;
-// } List;
+// } List2;
 
 typedef struct
 {
@@ -20,6 +20,7 @@ typedef struct
 } List;
 
 void list_print(List arr);
+void list2_print(List* arr);
 int list_append(List* arr, int num);
 int list_insert(List* arr, int num, int position);
 int list_delete(List* arr, int index);
@@ -39,6 +40,8 @@ bool list_is_sorted(List* arr);
 void list_sorted_insert(List* arr, int num); // insert into a sorted list
 void list_separate_positives_negatives(List* arr); // separate positive and negative numbers into different sections
 char list_sort_direction(List* arr); // Check direction of sort - forward or reverse
+List* list_sorted_merge(List* arr1, List* arr2);
+void list_destroy(List* list);
 
 int main()
 {
@@ -114,11 +117,19 @@ int main()
     printf("Negatives and positives separated:\n");
     list_print(arr2);
 
-    // Merge two lists
     list_reverse(arr_p);
     bubble_sort(arr2.array, arr2.length);
     list_print(arr);
     list_print(arr2);
+
+    // Merge two lists
+    List arr3 = {{2,4,6,8}, 20, 4};
+    List arr4 = {{1,3,5,7,9}, 20, 5};
+    List* merged_list = list_sorted_merge(&arr3, &arr4);
+    list2_print(merged_list);
+    // write destroy List function to free heap memory
+    list_destroy(merged_list);
+    merged_list = NULL;
     return 0;
 }
 
@@ -129,6 +140,20 @@ void list_print(List arr)
     {
         printf("%d", arr.array[i]);
         if (i != arr.length - 1)
+        {
+            printf(",");
+        }
+    }
+    printf("]\n");
+}
+
+void list2_print(List* arr)
+{
+    printf("[");
+    for (int i = 0; i < arr->length; i++)
+    {
+        printf("%d", arr->array[i]);
+        if (i != arr->length - 1)
         {
             printf(",");
         }
@@ -471,4 +496,58 @@ void list_separate_positives_negatives(List* arr)
         }
     }
 
+}
+
+List* list_sorted_merge(List* arr1, List* arr2)
+{
+    List* merged_list = (List *)malloc(sizeof(List));
+    merged_list->size = arr1->size + arr2->size;
+    // merged_list->array = (int *)malloc(sizeof(int) * merged_list->size);
+    
+    int i = 0, j = 0, k = 0;
+    while (i < arr1->length && j < arr2->length)
+    {
+        if (arr1->array[i] < arr2->array[j])
+        {
+            merged_list->array[k] = arr1->array[i];
+            i++, k++;
+        }
+        else
+        {
+            merged_list->array[k] = arr2->array[j];
+            j++, k++;
+        }
+    }
+    for (; i < arr1->length; i++)
+    {
+        merged_list->array[k] = arr1->array[i];
+        k++;
+    }
+    for (; j < arr2->length; j++)
+    {
+        merged_list->array[k] = arr2->array[j];
+        k++;
+    }
+    merged_list->length = arr1->length + arr2->length;
+    return merged_list;
+}
+
+void list_destroy(List* list) 
+{
+    if (list == NULL) {
+        return; // Nothing to free
+    }
+
+    // 1. Free the dynamically allocated array first
+    // This is crucial because list->array points to a separate block of heap memory.
+    // if (list->array != NULL) {
+    //     free(list->array);
+    //     list->array = NULL; // Good practice to set to NULL after freeing
+    // }
+
+    // 2. Free the List2 struct itself (if it was dynamically allocated)
+    free(list);
+    list = NULL; // Good practice to set the passed pointer to NULL, though
+                 // this won't affect the caller's copy of the pointer.
+                 // To affect the caller, you'd pass a **List2 pointer.
 }

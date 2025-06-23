@@ -24,3 +24,17 @@
 - The shortest time is potentially O(1) for an element that exists in the list. And the longest is O(logn).
 - For an element that doesn't exist in the list, binary search is always O(logn).
 
+### 114 - Merging two sorted arrays
+
+- The merge operation is different to concatenation.
+- Concatentation is the joining of two arrays into a single array.
+- Merging is the act to combining two sorted arrays into a single sorted array.
+
+### 116 - Set operations on an array
+
+There are 4 set operations:
+1. Union
+2. Intersection
+3. Difference
+4. Set membership
+
