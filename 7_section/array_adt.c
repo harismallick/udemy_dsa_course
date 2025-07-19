@@ -41,6 +41,8 @@ void list_sorted_insert(List* arr, int num); // insert into a sorted list
 void list_separate_positives_negatives(List* arr); // separate positive and negative numbers into different sections
 char list_sort_direction(List* arr); // Check direction of sort - forward or reverse
 List* list_sorted_merge(List* arr1, List* arr2);
+List* lists_union(List* arr1, List* arr2);
+List* lists_intersection(List* arr1, List* arr2);
 void list_destroy(List* list);
 
 int main()
@@ -123,13 +125,20 @@ int main()
     list_print(arr2);
 
     // Merge two lists
-    List arr3 = {{2,4,6,8}, 20, 4};
-    List arr4 = {{1,3,5,7,9}, 20, 5};
+    List arr3 = {{2,4,6,8,9}, 20, 5};
+    List arr4 = {{1,2,3,5,7,9}, 20, 6};
     List* merged_list = list_sorted_merge(&arr3, &arr4);
     list2_print(merged_list);
     // write destroy List function to free heap memory
     list_destroy(merged_list);
     merged_list = NULL;
+
+    // Union of lists
+    List* union_list = lists_union(&arr3, &arr4);
+    list2_print(union_list);
+    list_destroy(union_list);
+    union_list = NULL;
+
     return 0;
 }
 
@@ -501,7 +510,8 @@ void list_separate_positives_negatives(List* arr)
 List* list_sorted_merge(List* arr1, List* arr2)
 {
     List* merged_list = (List *)malloc(sizeof(List));
-    merged_list->size = arr1->size + arr2->size;
+    merged_list->size = 20;
+    // merged_list->size = arr1->size + arr2->size;
     // merged_list->array = (int *)malloc(sizeof(int) * merged_list->size);
     
     int i = 0, j = 0, k = 0;
@@ -550,4 +560,53 @@ void list_destroy(List* list)
     list = NULL; // Good practice to set the passed pointer to NULL, though
                  // this won't affect the caller's copy of the pointer.
                  // To affect the caller, you'd pass a **List2 pointer.
+}
+
+List* lists_union(List* arr1, List* arr2)
+{
+    // Must include all unique items in both lists
+
+    List* merged_list = (List *)malloc(sizeof(List));
+    // merged_list->size = arr1->size + arr2->size;
+    merged_list->size = 20; // Based on current implementation
+    // merged_list->array = (int *)malloc(sizeof(int) * merged_list->size);
+    
+    int i = 0, j = 0, k = 0;
+    while (i < arr1->length && j < arr2->length)
+    {
+        if (arr1->array[i] < arr2->array[j])
+        {
+            merged_list->array[k] = arr1->array[i];
+            i++, k++;
+        }
+        else if (arr2->array[j] < arr1->array[i])
+        {
+            merged_list->array[k] = arr2->array[j];
+            j++, k++;
+        }
+        else
+        {
+            merged_list->array[k] = arr2->array[j];
+            i++, j++, k++;
+        }
+    }
+    for (; i < arr1->length; i++)
+    {
+        merged_list->array[k] = arr1->array[i];
+        k++;
+    }
+    for (; j < arr2->length; j++)
+    {
+        merged_list->array[k] = arr2->array[j];
+        k++;
+    }
+    merged_list->length = k;
+    return merged_list;
+    
+}
+
+List* lists_intersection(List* arr1, List* arr2)
+{
+    List* intersection_list = (List*)malloc(sizeof(List));
+    return intersection_list;
 }
