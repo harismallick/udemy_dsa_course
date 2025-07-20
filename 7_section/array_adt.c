@@ -44,103 +44,116 @@ List* list_sorted_merge(List* arr1, List* arr2);
 List* lists_union(List* arr1, List* arr2);
 List* lists_intersection(List* arr1, List* arr2);
 void list_destroy(List* list);
+List* lists_difference(List* arr1, List* arr2);
 
-int main()
-{
-    // Heap memory implementation
-    // List arr;
-    // printf("Enter the size of your array:\n");
-    // scanf("%d", &arr.size);
-    // arr.array = (int *)malloc(sizeof(int) * arr.size);
-    // arr.length = 0;
+// int main()
+// {
+//     // Heap memory implementation
+//     // List arr;
+//     // printf("Enter the size of your array:\n");
+//     // scanf("%d", &arr.size);
+//     // arr.array = (int *)malloc(sizeof(int) * arr.size);
+//     // arr.length = 0;
 
-    // printf("Enter the length of your array:\n");
-    // scanf("%d", &arr.length);
+//     // printf("Enter the length of your array:\n");
+//     // scanf("%d", &arr.length);
 
-    // for (int i = 0; i < arr.length; i++)
-    // {
-    //     printf("Enter a number to add to the array:\n");
-    //     scanf("%d", &arr.array[i]);
-    // }
-    // list_print(arr);
-    // free(arr.array);
+//     // for (int i = 0; i < arr.length; i++)
+//     // {
+//     //     printf("Enter a number to add to the array:\n");
+//     //     scanf("%d", &arr.array[i]);
+//     // }
+//     // list_print(arr);
+//     // free(arr.array);
 
-    // Stack memory implementation for demonstration
-    List arr = {{1,2,3,4,5}, 20, 5};
-    List* arr_p = &arr;
-    list_print(arr);
-    list_append(arr_p, 6);
-    list_print(arr);
-    list_insert(arr_p, 8, 3);
-    list_print(arr);
-    list_delete(arr_p, 2);
-    list_print(arr);
-    printf("%d\n", list_linear_search(arr_p, 4));
-    list_print(arr); // Check for the element swap;
-    printf("%d\n", list_linear_search(arr_p, 14));
-    bubble_sort(arr.array, arr.length);
-    printf("The array after being sorted:\n");
-    list_print(arr);
-    printf("%d\n", list_binary_search(arr_p, 4));
-    printf("%d\n", list_binary_search(arr_p, 14));
+//     // Stack memory implementation for demonstration
+//     List arr = {{1,2,3,4,5}, 20, 5};
+//     List* arr_p = &arr;
+//     list_print(arr);
+//     list_append(arr_p, 6);
+//     list_print(arr);
+//     list_insert(arr_p, 8, 3);
+//     list_print(arr);
+//     list_delete(arr_p, 2);
+//     list_print(arr);
+//     printf("%d\n", list_linear_search(arr_p, 4));
+//     list_print(arr); // Check for the element swap;
+//     printf("%d\n", list_linear_search(arr_p, 14));
+//     bubble_sort(arr.array, arr.length);
+//     printf("The array after being sorted:\n");
+//     list_print(arr);
+//     printf("%d\n", list_binary_search(arr_p, 4));
+//     printf("%d\n", list_binary_search(arr_p, 14));
 
-    // List operations:
-    //get
-    printf("The number at index %d is %d\n", 3, list_get(arr_p, 3));
-    //set
-    list_set(arr_p, 1, 3);
-    printf("The list after set operation:\n");
-    list_print(arr);
-    printf("The largest number in the list: %d\n", list_max(arr_p));
-    printf("The smallest number in the list: %d\n", list_min(arr_p));
-    printf("The sum of the list is %d\n", list_sum(arr_p));
-    printf("The average of the list is %f\n", list_average(arr_p));
-    // Reverse list:
-    list_reverse(arr_p);
-    printf("The list after reverse operation:\n");
-    list_print(arr);
-    // Left rotation:
-    list_rotation(arr_p, 'l');
-    printf("List after L rotation:\n");
-    list_print(arr);
-    // Right rotation:
-    list_rotation(arr_p, 'r');
-    printf("List after R rotation:\n");
-    list_print(arr);
-    // Check if list is sorted:
-    printf("Is this list sorted?\t%s\n", list_is_sorted(arr_p) ? "True" : "False");
-    // Insert into sorted list:
-    list_sorted_insert(arr_p, 7);
-    printf("The list after a sorted insert operation:\n");
-    list_print(arr);
-    // Separate positive and negative numbers in a list:
-    List arr2 = {{1,-5,0,-3,5,-6, 9, -10}, 20, 8};
-    list_separate_positives_negatives(&arr2);
-    printf("Negatives and positives separated:\n");
-    list_print(arr2);
+//     // List operations:
+//     //get
+//     printf("The number at index %d is %d\n", 3, list_get(arr_p, 3));
+//     //set
+//     list_set(arr_p, 1, 3);
+//     printf("The list after set operation:\n");
+//     list_print(arr);
+//     printf("The largest number in the list: %d\n", list_max(arr_p));
+//     printf("The smallest number in the list: %d\n", list_min(arr_p));
+//     printf("The sum of the list is %d\n", list_sum(arr_p));
+//     printf("The average of the list is %f\n", list_average(arr_p));
+//     // Reverse list:
+//     list_reverse(arr_p);
+//     printf("The list after reverse operation:\n");
+//     list_print(arr);
+//     // Left rotation:
+//     list_rotation(arr_p, 'l');
+//     printf("List after L rotation:\n");
+//     list_print(arr);
+//     // Right rotation:
+//     list_rotation(arr_p, 'r');
+//     printf("List after R rotation:\n");
+//     list_print(arr);
+//     // Check if list is sorted:
+//     printf("Is this list sorted?\t%s\n", list_is_sorted(arr_p) ? "True" : "False");
+//     // Insert into sorted list:
+//     list_sorted_insert(arr_p, 7);
+//     printf("The list after a sorted insert operation:\n");
+//     list_print(arr);
+//     // Separate positive and negative numbers in a list:
+//     List arr2 = {{1,-5,0,-3,5,-6, 9, -10}, 20, 8};
+//     list_separate_positives_negatives(&arr2);
+//     printf("Negatives and positives separated:\n");
+//     list_print(arr2);
 
-    list_reverse(arr_p);
-    bubble_sort(arr2.array, arr2.length);
-    list_print(arr);
-    list_print(arr2);
+//     list_reverse(arr_p);
+//     bubble_sort(arr2.array, arr2.length);
+//     list_print(arr);
+//     list_print(arr2);
 
-    // Merge two lists
-    List arr3 = {{2,4,6,8,9}, 20, 5};
-    List arr4 = {{1,2,3,5,7,9}, 20, 6};
-    List* merged_list = list_sorted_merge(&arr3, &arr4);
-    list2_print(merged_list);
-    // write destroy List function to free heap memory
-    list_destroy(merged_list);
-    merged_list = NULL;
+//     // Merge two lists
+//     List arr3 = {{2,4,6,8,9}, 20, 5};
+//     List arr4 = {{1,2,3,5,7,9}, 20, 6};
+//     List* merged_list = list_sorted_merge(&arr3, &arr4);
+//     list2_print(merged_list);
+//     // write destroy List function to free heap memory
+//     list_destroy(merged_list);
+//     merged_list = NULL;
 
-    // Union of lists
-    List* union_list = lists_union(&arr3, &arr4);
-    list2_print(union_list);
-    list_destroy(union_list);
-    union_list = NULL;
+//     // Union of lists
+//     List* union_list = lists_union(&arr3, &arr4);
+//     list2_print(union_list);
+//     list_destroy(union_list);
+//     union_list = NULL;
 
-    return 0;
-}
+//     // Intersection of two lists
+//     List* intersection_list = lists_intersection(&arr3, &arr4);
+//     list2_print(intersection_list);
+//     list_destroy(intersection_list);
+//     intersection_list = NULL;
+
+//     // Difference of two lists
+//     List* arr3_diff_arr4 = lists_difference(&arr3, &arr4);
+//     list2_print(arr3_diff_arr4);
+//     list_destroy(arr3_diff_arr4);
+//     arr3_diff_arr4 = NULL;
+
+//     return 0;
+// }
 
 void list_print(List arr)
 {
@@ -608,5 +621,59 @@ List* lists_union(List* arr1, List* arr2)
 List* lists_intersection(List* arr1, List* arr2)
 {
     List* intersection_list = (List*)malloc(sizeof(List));
+    intersection_list->size = 20;
+
+    int i = 0, j = 0, k = 0;
+    while (i < arr1->length && j < arr2->length)
+    {
+        if (arr1->array[i] < arr2->array[j])
+        {
+            i++;
+        }
+        else if (arr2->array[j] < arr1->array[i])
+        {
+            j++;
+        }
+        else
+        {
+            intersection_list->array[k] = arr1->array[i];
+            i++, j++, k++;
+        }
+        intersection_list->length = k;
+    }
     return intersection_list;
+}
+
+List* lists_difference(List* arr1, List* arr2)
+{
+    // Return a list of elements that are unique to the first list
+    List* arr1_diff_arr2 = (List*)malloc(sizeof(List));
+    arr1_diff_arr2->size = 20;
+
+    int i=0, j=0, k=0;
+    while (i < arr1->length && j < arr2->length)
+    {
+        if (arr1->array[i] == arr2->array[j])
+        {
+            i++, j++;
+        }
+        else if (arr1->array[i] > arr2->array[j])
+        {
+            j++;
+        }
+        else
+        {
+            arr1_diff_arr2->array[k] = arr1->array[i];
+            i++, k++;
+        }
+
+    }
+    for (; i < arr1->length; i++)
+    {
+        arr1_diff_arr2->array[k] = arr1->array[i];
+        k++;
+    }
+    arr1_diff_arr2->length = k;
+
+    return arr1_diff_arr2;
 }
