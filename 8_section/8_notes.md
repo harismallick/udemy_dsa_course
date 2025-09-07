@@ -19,4 +19,14 @@ In this Chapter, we cover common algorithms when working with strings.
   - But ASCII is stored using 1 byte.
 - Unicode is stored in 2-bytes, ie, 16-bits.
   - Unicode is stored in hexadecimal.
-- 
+- An empty array of characters is instantiated with zeroes.
+- All strings in end with the string delimiter - '\0'
+- String literals are immutable in C. To mutate elements in the string, it must be declare as a char array.
+- Char arrays are stored in writeable memory locations, while string literals are stored in read-only memory locations.
+
+```C
+    char name[] = "john"; // This string is mutable!
+    char const name[] = "jane"; // This string is immutable!
+    char *name = "jane"; // This is a string literal which is immutable.
+
+```
