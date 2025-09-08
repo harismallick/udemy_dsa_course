@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 
 void lesson_131();
@@ -7,8 +8,12 @@ void lesson_133();
 void lesson_134();
 void lesson_135();
 void lesson_136();
+void lesson_137();
+void lesson_138();
+void lesson_139();
 int string_length(char* string);
 void string_switch_case(char* string);
+void string_to_lowercase(char* string);
 int string_is_alphanumeric(char* string);
 void string_reverse(char* string);
 
@@ -18,8 +23,11 @@ int main()
     // lesson_132();
     // lesson_133();
     // lesson_134();
-    lesson_135();
-    lesson_136();
+    // lesson_135();
+    // lesson_136();
+    // lesson_137();
+    // lesson_138();
+    lesson_139();
     return 0;
 }
 
@@ -201,4 +209,79 @@ void lesson_136()
     char name[] = "python";
     string_reverse(name);
     printf("The reversed string is %s\n", name);
+}
+
+void string_to_lowercase(char* string)
+{
+    for (int i = 0; string[i] != '\0'; i++)
+    {
+        string[i] = tolower(string[i]);
+    }
+}
+
+void lesson_137()
+{
+    // Check if a given string is a palindromes
+
+    char word1[] = "raceCAR";
+    string_to_lowercase(word1);
+    int front_letter = 0;
+    int back_letter = string_length(word1) - 1;
+
+    while (front_letter < back_letter)
+    {
+        if (word1[front_letter] != word1[back_letter])
+        {
+            printf("%s is not a palindrome.\n", word1);
+            return;
+        }
+        front_letter++;
+        back_letter--;
+    }
+    printf("%s is a palindrome.\n", word1);
+}
+
+void lesson_138()
+{
+    // Find duplicate letters in a string. In this case, case insensitive
+    // This implementation does not work for special characters.
+    char example[] = "findINgs";
+
+    // Method 1: using hash tables
+    const int START_ASCII = 97;
+    const int END_ASCII = 122;
+    const int TOTAL_LETTERS = 26;
+
+    int* letters_map = (int *)calloc(TOTAL_LETTERS, sizeof(int));
+
+    for (int i = 0; example[i] != '\0'; i++)
+    {
+        char temp = tolower(example[i]);
+        if (temp >= START_ASCII && temp <= END_ASCII)
+        {
+            letters_map[temp - START_ASCII]++;
+        }
+    }
+    for (int j = 0; j < TOTAL_LETTERS; j++)
+    {
+        if (letters_map[j] > 1)
+        {
+            printf("%c is present %d times in the given string.\n", START_ASCII + j, letters_map[j]);
+        }
+    }
+
+    free(letters_map);
+}
+
+void lesson_139()
+{
+    // Find duplicate letters in a string using bit manipulation
+    unsigned int test = 1;
+    test = test << 2;
+    printf("New value of test is %d\n", test);
+
+    unsigned int num1 = 10;
+    unsigned int num2 = 6;
+    printf("10 AND 6 is: %d\n", num1 & num2);
+    printf("10 OR 6 is: %d\n", num1 | num2);
 }

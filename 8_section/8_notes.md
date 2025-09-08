@@ -30,3 +30,21 @@ In this Chapter, we cover common algorithms when working with strings.
     char *name = "jane"; // This is a string literal which is immutable.
 
 ```
+
+#### 139 Notes
+
+- The three bitwise operations that are commonly used in some algorithms:
+    1. Left shift - <<
+    2. Bits OR (merging)
+    3. Bits AND (masking)
+- Left shift:
+
+```C
+
+    unsigned int test = 1;
+    test = test << 2;
+    // The new value stored in test will be 4.
+    // Binary representation of 1 in 8-bits is 00000001
+    // Shifting all bits to the left by 2 positions will make the new byte: 00000100
+    // This is 4.
+```
