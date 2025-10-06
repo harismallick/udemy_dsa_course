@@ -37,7 +37,7 @@ In this Chapter, we cover common algorithms when working with strings.
     1. Left shift - <<
     2. Bits OR (merging)
     3. Bits AND (masking)
-- Left shift:
+- Left shift: Shifts the bits one binary multiple to the left.
 
 ```C
 

@@ -284,4 +284,35 @@ void lesson_139()
     unsigned int num2 = 6;
     printf("10 AND 6 is: %d\n", num1 & num2);
     printf("10 OR 6 is: %d\n", num1 | num2);
+
+    // Finding duplicates in a string using masking and merging
+    char* string = "finding\0";
+    const int START_ASCII = 97;
+    // Create a bit mask to use, similar to a hash map
+    // The bit mask needs to be able to accomodate all 26 letters, so unsigned int should be sufficient.
+
+    unsigned int bit_mask, temp;
+    bit_mask = 0;
+    temp = 0;
+    // printf("%u\n", bit_mask-1);
+
+    // for (int i = 0; i < sizeof(bit_mask) * 8; i++)
+    // {
+    //     temp = bit_mask << i;
+    //     printf("%u\n", temp);
+    // }
+    for (int i = 0; string[i] != '\0'; i++)
+    {
+        temp = 1;
+        temp = temp << (string[i] - START_ASCII);
+
+        if ((temp & bit_mask) > 0)
+        {
+            printf("%c is a duplicate letter.\n", string[i]);
+        }
+        else
+        {
+            bit_mask = temp | bit_mask;
+        }
+    }
 }
