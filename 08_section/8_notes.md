@@ -48,3 +48,14 @@ In this Chapter, we cover common algorithms when working with strings.
     // Shifting all bits to the left by 2 positions will make the new byte: 00000100
     // This is 4.
 ```
+
+#### 141 Notes
+
+- Dynamic programming solution to permutating through all possible strings from a given set of letters.
+- Breaking the solution down into smaller problems.
+- In this case, using three pointers:
+  - Pointer 1 iterates through the array of available characters.
+  - Pointer 2 to track the last location of the iterating pointers.
+  - Swapping the letters found at pointer-1 and pointer-2 index positions.
+  - Pointer 3 marking the termination case for recursion at the end of the char array.
+  - 

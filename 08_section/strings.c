@@ -11,11 +11,15 @@ void lesson_136();
 void lesson_137();
 void lesson_138();
 void lesson_139();
+void lesson_140();
+void lesson_141();
 int string_length(char* string);
 void string_switch_case(char* string);
 void string_to_lowercase(char* string);
 int string_is_alphanumeric(char* string);
 void string_reverse(char* string);
+void swap_char_arr_letters(char s[], int index_1, int index_2);
+void string_permutation_helper(char s[], int low, int high);
 
 int main()
 {
@@ -27,7 +31,9 @@ int main()
     // lesson_136();
     // lesson_137();
     // lesson_138();
-    lesson_139();
+    // lesson_139();
+    // lesson_140();
+    lesson_141();
     return 0;
 }
 
@@ -314,5 +320,74 @@ void lesson_139()
         {
             bit_mask = temp | bit_mask;
         }
+    }
+}
+
+void lesson_140()
+{
+    // Write an algorithm to check if two given strings are anagrams.
+    // For two strings to be anagrams, they must use the same characters and the same count of each character.
+
+    const int TOTAL_LETTERS = 26;
+    const int FIRST_ASCII = 97;
+    char* string_1 = "verbose\0";
+    char* string_2 = "observe\0";
+
+    int* hash_table = (int*)calloc(TOTAL_LETTERS, sizeof(int));
+
+    for (int i = 0; string_1[i] != '\0'; i++)
+    {
+        hash_table[string_1[i] - FIRST_ASCII] += 1;
+    }
+
+    for (int j = 0; string_2[j] != '\0'; j++)
+    {
+        printf("%d\n", hash_table[string_2[j]-FIRST_ASCII]);
+        hash_table[string_2[j] - FIRST_ASCII] -= 1;
+
+        if (hash_table[string_2[j] - FIRST_ASCII] < 0)
+        {
+            printf("The two given strings are not anagrams.\n");
+            free(hash_table);
+            return;
+        }
+    }
+    printf("%s and %s are anagrams.\n", string_1, string_2);
+    free(hash_table);
+    return;
+}
+
+void lesson_141()
+{
+    // Create all permutations of a string for a given set of letters (without repeating the letters)
+    // This is done using a brute force algorithm involving backtracking.
+
+    char string[] = "ABC\0";
+    // swap_char_arr_letters(string, 1, 2);
+    string_permutation_helper(string, 0, string_length(string) - 1);
+
+    return;
+}
+
+void swap_char_arr_letters(char s[], int index_1, int index_2)
+{
+    char temp = s[index_1];
+    s[index_1] = s[index_2];
+    s[index_2] = temp;
+}
+
+void string_permutation_helper(char s[], int low, int high)
+{
+    if (low == high)
+    {
+        printf("%s\n", s);
+        return ;
+    }
+
+    for (int i = low; i <= high; i++)
+    {
+        swap_char_arr_letters(s, low, i);
+        string_permutation_helper(s, low + 1, high);
+        swap_char_arr_letters(s, low, i);
     }
 }
