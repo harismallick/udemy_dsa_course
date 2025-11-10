@@ -18,3 +18,14 @@ There are eight different types of matrices covered in this course:
 - In this form of matrix, the only non-zero values are when i = j.
 - This means that rather than computing and storing 2D arrays, diagonal matrices can be stored as a simple array.
 
+#### Lower Triangle Matrix
+
+- In this form of matrix, only the lower half of the matrix has non-zero elements.
+- The top half of the matrix is all zeroes.
+- If i is the y-axis and j is the x-axis, then M[i, j] is non-zero if i >= j.
+- For a matrix of size n, n * (n + 1) / 2 elements will be non-zero.
+- n^2 - n(n+1)/2 = n * (n - 1) / 2 elements will be zero.
+- n(n+1)/2 is the arithmetic progression formula for natural numbers starting from 1.
+- AP formula is n(a+l)/2, where a is the first number in the series and l is the last number.
+- When starting from 1, n = l.
+- 
