@@ -19,12 +19,15 @@ int get_matrix_array_index_mapping(int x_axis, int y_axis, int mapping_type, int
 int main()
 {
     Matrix test = {{0}, SIZE, 0, 5};
-    triangle_matrix_set(&test, 1, 1, 9, ROW_MAPPING);
-    triangle_matrix_set(&test, 2, 2, 5, ROW_MAPPING);
-    triangle_matrix_set(&test, 3, 3, 1, ROW_MAPPING);
-    triangle_matrix_set(&test, 4, 4, 7, ROW_MAPPING);
-    triangle_matrix_set(&test, 1, 2, 4, ROW_MAPPING);
-    triangle_matrix_set(&test, 5, 5, 6, ROW_MAPPING);
+    triangle_matrix_set(&test, 1, 1, 1, ROW_MAPPING);
+    triangle_matrix_set(&test, 2, 2, 2, ROW_MAPPING);
+    triangle_matrix_set(&test, 3, 3, 3, ROW_MAPPING);
+    triangle_matrix_set(&test, 4, 4, 4, ROW_MAPPING);
+    triangle_matrix_set(&test, 1, 2, 2, ROW_MAPPING);
+    triangle_matrix_set(&test, 1, 3, 3, ROW_MAPPING);
+    triangle_matrix_set(&test, 2, 3, 3, ROW_MAPPING);
+    triangle_matrix_set(&test, 1, 4, 4, ROW_MAPPING);
+    triangle_matrix_set(&test, 5, 5, 5, ROW_MAPPING);
     int value = triangle_matrix_get(&test, 2, 2, ROW_MAPPING);
     printf("The value at 2,2 in the lower triangle matrix is %d\n", value);
     
@@ -32,12 +35,15 @@ int main()
     triangle_matrix_set(&test, 5, 4, 6, ROW_MAPPING);
 
     Matrix test2 = {{0}, SIZE, 0, 5};
-    triangle_matrix_set(&test2, 1, 1, 9, COLUMN_MAPPING);
-    triangle_matrix_set(&test2, 2, 2, 5, COLUMN_MAPPING);
-    triangle_matrix_set(&test2, 3, 3, 1, COLUMN_MAPPING);
-    triangle_matrix_set(&test2, 4, 4, 7, COLUMN_MAPPING);
-    triangle_matrix_set(&test2, 1, 2, 4, COLUMN_MAPPING);
-    triangle_matrix_set(&test2, 5, 5, 6, COLUMN_MAPPING);
+    triangle_matrix_set(&test2, 1, 1, 1, COLUMN_MAPPING);
+    triangle_matrix_set(&test2, 2, 2, 2, COLUMN_MAPPING);
+    triangle_matrix_set(&test2, 3, 3, 3, COLUMN_MAPPING);
+    triangle_matrix_set(&test2, 4, 4, 4, COLUMN_MAPPING);
+    triangle_matrix_set(&test2, 1, 2, 2, COLUMN_MAPPING);
+    triangle_matrix_set(&test2, 1, 3, 3, COLUMN_MAPPING);
+    triangle_matrix_set(&test2, 2, 3, 3, COLUMN_MAPPING);
+    triangle_matrix_set(&test2, 1, 4, 4, COLUMN_MAPPING);
+    triangle_matrix_set(&test2, 5, 5, 5, COLUMN_MAPPING);
     value = triangle_matrix_get(&test2, 2, 2, COLUMN_MAPPING);
     printf("The value at 2,2 in the lower triangle matrix is %d\n", value);
     
@@ -57,7 +63,8 @@ int get_matrix_array_index_mapping(int x_axis, int y_axis, int mapping_type, int
     
     else if (mapping_type == COLUMN_MAPPING)
     {
-        index = matrix_dimension * (x_axis - 1) + ((x_axis - 2) * (x_axis - 1) / 2) + (y_axis - x_axis);
+        index = (matrix_dimension * (x_axis - 1) - ((x_axis - 2) * (x_axis - 1) / 2)) + (y_axis - x_axis);
+        // printf("Calculated index: %d\n", index);
         return index;
     }
     
@@ -104,10 +111,7 @@ int triangle_matrix_get(Matrix *mtx, int x_axis, int y_axis, int mapping)
     }
 
     int index;
-    if (mapping == ROW_MAPPING)
-        index = get_matrix_array_index_mapping(x_axis, y_axis, ROW_MAPPING, mtx->matrix_dimension);
-    else if (mapping == COLUMN_MAPPING)
-        index = get_matrix_array_index_mapping(x_axis, y_axis, COLUMN_MAPPING, mtx->matrix_dimension);
+    index = get_matrix_array_index_mapping(x_axis, y_axis, mapping, mtx->matrix_dimension);
 
     if (index < 0)
     {

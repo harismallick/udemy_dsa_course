@@ -28,4 +28,26 @@ There are eight different types of matrices covered in this course:
 - n(n+1)/2 is the arithmetic progression formula for natural numbers starting from 1.
 - AP formula is n(a+l)/2, where a is the first number in the series and l is the last number.
 - When starting from 1, n = l.
+
+```C
+    // y-axis = row -> index letter: i
+    // x-axis = column -> index letter: j
+    
+    // Formula for row major mapping of lower triangle matrix to an array:
+    index = (y_axis * (y_axis - 1) / 2) + (x_axis - 1);
+
+    // Formula for column major mapping of lower triangle matrix to an array:
+    index = (matrix_dimension * (x_axis - 1) - ((x_axis - 2) * (x_axis - 1) / 2)) + (y_axis - x_axis);
+
+```
+
+#### Upper Triangle Matrix
+
+- Lower triangle matrix, but reversed.
+- The value M[i, j] is non-zero if i <= j.
+- if i > j, then M[i, j] is zero.
+- n * (n + 1) / 2 elements are non-zero in a matrix of size n.
+- n * (n - 1) / 2 elements are zero in a matrix of size n.
+- The row major mapping formula is the column major mapping formula from lower triangle matrix.
+- Similarly, the column major mapping formula is the row major mapping formula from lower triangle matrix.
 - 
