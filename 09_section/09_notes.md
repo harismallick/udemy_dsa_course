@@ -32,12 +32,15 @@ There are eight different types of matrices covered in this course:
 ```C
     // y-axis = row -> index letter: i
     // x-axis = column -> index letter: j
+    // matrix dimension -> n
     
     // Formula for row major mapping of lower triangle matrix to an array:
     index = (y_axis * (y_axis - 1) / 2) + (x_axis - 1);
+    index = (i * (i - 1) / 2) + (j - 1);
 
     // Formula for column major mapping of lower triangle matrix to an array:
     index = (matrix_dimension * (x_axis - 1) - ((x_axis - 2) * (x_axis - 1) / 2)) + (y_axis - x_axis);
+    index = (matrix_dimension * (j - 1) - ((j - 2) * (j - 1) / 2)) + (i - j);
 
 ```
 
@@ -48,6 +51,54 @@ There are eight different types of matrices covered in this course:
 - if i > j, then M[i, j] is zero.
 - n * (n + 1) / 2 elements are non-zero in a matrix of size n.
 - n * (n - 1) / 2 elements are zero in a matrix of size n.
-- The row major mapping formula is the column major mapping formula from lower triangle matrix.
-- Similarly, the column major mapping formula is the row major mapping formula from lower triangle matrix.
+- The row major mapping formula is the column major mapping formula from lower triangle matrix with the axes reversed.
+- Similarly, the column major mapping formula is the row major mapping formula from lower triangle matrix with the axes reversed.
+- 
+```C
+    // y-axis = row -> index letter: i
+    // x-axis = column -> index letter: j
+    // matrix dimension -> n
+    
+    // Formula for column major mapping of lower triangle matrix to an array:
+    index = (x_axis * (x_axis - 1) / 2) + (y_axis - 1);
+    index = (j * (j - 1) / 2) + (i - 1);
+
+    // Formula for row major mapping of lower triangle matrix to an array:
+    index = (matrix_dimension * (y_axis - 1) - ((y_axis - 2) * (y_axis - 1) / 2)) + (x_axis - y_axis);
+    index = (matrix_dimension * (i - 1) - ((i - 2) * (i - 1) / 2)) + (j - i);
+
+```
+
+
+#### Symmetric Matrix
+
+- A symmetric matrix is one where the values M[i,j] = M[j,i]
+- An example of a symmetric matrix:
+
+1   2   3
+2   4   5
+3   5   5
+
+- It can be seen that the value at M[1,1] = M[1,1]
+- M[1,2] = M[2,1]
+- M[1,3] = M[3,1]
+- M[3,3] = M[3,3]
+
+- Since the top half of the matrix is idenical to the bottom half, this matrix can be stored as either an upper or lower triangle matrix, and the missing value can be inferred from the stored ones.
+
+#### Tridiagonal Matrix
+
+- This is similar to a diagonal matrix, where the diagonal values above and below the i=j diagonal are also stored.
+- So, values are stored in a tridiagonal matrix if:
+  - i - j = 0
+  - i - j = 1
+  - i - j = -1
+- This can be simplified to: |i - j| <= 1
+- Total number of values stored for a tridiagonal matrix: 3n-2, where n is the matrix dimension. 
+- The linear representation of each matrix coordinate can be calculated as:
+  - Case 1: if i-j = 1 => index = i - 2
+  - Case 2: if i-j = 0 => index = matrix_dimension - 1 + i - 1
+  - Case 3: if i-j = -1 => index = 2n - 1 + i - 1
+- This linear representation works if the diagonals are stored in the order: lower -> middle -> upper
+- If storing upper -> middle -> lower, then the formulas for i-j = 1 and i-j = -1 need to be reversed.
 - 
