@@ -102,3 +102,29 @@ There are eight different types of matrices covered in this course:
 - This linear representation works if the diagonals are stored in the order: lower -> middle -> upper
 - If storing upper -> middle -> lower, then the formulas for i-j = 1 and i-j = -1 need to be reversed.
 - 
+
+#### Square Band Matrix
+
+- In a tridiagonal matrix, there is exactly one diagonal line of value running on either side of the middle diagonal.
+- In a square band matrix, there can be n number of diagonal lines running on both sides of the middle diagonal.
+- Storing those additional diagonal will require adding more cases, to a total of n cases, one for each diagonal line.
+
+#### Toeplitz Matrix
+
+- In this type of matrix, the values in a diagonal are identical.
+- Example:
+
+2   3   4   5   6
+7   2   3   4   5
+8   7   2   3   4
+9   8   7   2   3
+10  9   8   7   2
+
+- Only the first row and the first column of values from the matrix need to be stored in the linear array.
+- The values can then be filled into the teoplitz matrix using an index calculating formula.
+- When storing the row values first, followed by the column values, the array for the above example would be:
+- [2,3,4,5,6,7,8,9,10]
+- Formula for populating the upper triangle of the matrix:
+  - if i <= j => Index = j - i
+  - if i > j => Index = matrix_dimension + i - j - 1
+
