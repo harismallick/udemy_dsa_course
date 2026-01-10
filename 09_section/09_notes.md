@@ -121,6 +121,7 @@ There are eight different types of matrices covered in this course:
 10  9   8   7   2
 
 - Only the first row and the first column of values from the matrix need to be stored in the linear array.
+- So, for a matrix of dimension n, the array needs to be of size 2n-1.
 - The values can then be filled into the teoplitz matrix using an index calculating formula.
 - When storing the row values first, followed by the column values, the array for the above example would be:
 - [2,3,4,5,6,7,8,9,10]
