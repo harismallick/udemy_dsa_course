@@ -23,4 +23,16 @@
 #### 160. Addition of two sparse matrices
 
 - Addition operation can only be performed on two matrices if their dimensions are identical.
+
+
+#### 167. Polynomial Representation
+
+This this section we will learn the following topics:
+- Polynomial Representation
+- Evaluation of a polynomial
+- Addition of two polynomials (if you learn one operation, the others can be implemented easily)
+- Need two variables to track a polynomial component: the exponent and the constant
+  - In C, this means creating a struct to track this info.
+- Create another struct to track the complete polynomial.
+  - This involves tracking the number of elements in the polynomial and an array of the first struct.
 - 
