@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 typedef struct Node
 {
@@ -19,8 +20,13 @@ void ll_display(LinkedList* list);
 void ll_recursive_display(Node* head);
 int ll_recursive_count(Node* head);
 int ll_sum(LinkedList* list);
+int ll_recursive_sum(Node* head);
 int ll_max(LinkedList* list);
+int ll_recursive_max(Node* head);
 int ll_min(LinkedList* list);
+int ll_recursive_min(Node* head);
+Node* ll_search(LinkedList* list, int key);
+Node* ll_recursive_search(Node* head, int key);
 void ll_free(LinkedList* list);
 
 int main()
@@ -38,6 +44,32 @@ int main()
 
     int count = ll_recursive_count(test_list->head);
     printf("This linked list has %d elements.\n", count);
+
+    int sum = ll_sum(test_list);
+    printf("The sum of elements in this linked list is: %d\n", sum);
+
+    int sum_r = ll_recursive_sum(test_list->head);
+    printf("The sum of elements in this linked list recursively is: %d\n", sum_r);
+
+    int max = ll_max(test_list);
+    int min = ll_min(test_list);
+    printf("The largest value in the list is %d, the smallest value is %d\n", max, min);
+
+    int rmax = ll_recursive_max(test_list->head);
+    int rmin = ll_recursive_min(test_list->head);
+    printf("The largest value in the list is %d, the smallest value is %d, done recursively.\n", rmax, rmin);
+
+    int search = 4;
+    Node* s1 = ll_search(test_list, search);
+    if (s1 != NULL)
+    {
+        printf("%d is in the list at %p.\n", search, s1);
+    }
+    Node* s2 = ll_recursive_search(test_list->head, search);
+    if (s2 != NULL)
+    {
+        printf("%d is in the list at %p.\n", search, s2);
+    }
 
     ll_free(test_list);
 
@@ -105,9 +137,50 @@ int ll_recursive_count(Node* head)
     }
     return x;
 }
-// int ll_sum(LinkedList* list);
-// int ll_max(LinkedList* list);
-// int ll_min(LinkedList* list);
+int ll_sum(LinkedList* list)
+{
+    int sum = 0;
+    Node* temp = list->head;
+    while (temp != NULL)
+    {
+        sum += temp->data;
+        temp = temp->next;
+    }
+    return sum;
+}
+
+int ll_max(LinkedList* list)
+{
+    int max = INT_MIN;
+    Node* temp = list->head;
+
+    while (temp != NULL)
+    {
+        if (temp->data > max)
+        {
+            max = temp->data;
+        }
+        temp = temp->next;
+    }
+    return max;
+}
+
+int ll_min(LinkedList* list)
+{
+    int min = INT_MAX;
+    Node* temp = list->head;
+
+    while (temp != NULL)
+    {
+        if (temp->data < min)
+        {
+            min = temp->data;
+        }
+        temp = temp->next;
+    }
+    return min;
+}
+
 void ll_free(LinkedList* list)
 {
     Node* temp;
@@ -122,4 +195,57 @@ void ll_free(LinkedList* list)
         free(list->head);
     }
     free(list);
+}
+
+int ll_recursive_sum(Node* head)
+{
+    if (head == NULL)
+    {
+        return 0;
+    }
+    return head->data + ll_recursive_sum(head->next);
+}
+
+int ll_recursive_max(Node* head)
+{
+    int x;
+    if (head == NULL)
+    {
+        return INT_MIN;
+    }
+    x = ll_recursive_max(head->next);
+    return x > head->data ? x : head->data;
+}
+
+int ll_recursive_min(Node* head)
+{
+    int x;
+    if (head == NULL)
+    {
+        return INT_MAX;
+    }
+    x = ll_recursive_min(head->next);
+    return x < head->data ? x : head->data;
+}
+
+Node* ll_search(LinkedList* list, int key)
+{
+    Node* temp = list->head;
+    while (temp != NULL)
+    {
+        if (temp->data == key)
+        {
+            return temp;
+        }
+        temp = temp->next;
+    }
+    return NULL;
+}
+Node* ll_recursive_search(Node* head, int key)
+{
+    if (head == NULL)
+    {
+        return NULL;
+    }
+    return key == head->data ? head : ll_recursive_search(head->next, key);
 }
