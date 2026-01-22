@@ -16,6 +16,8 @@ typedef struct
 
 LinkedList* ll_create();
 void ll_add(LinkedList* list, int value);
+void ll_add_iter(LinkedList* list, int* array, int size);
+void ll_insert(LinkedList* list, int value, int position);
 void ll_display(LinkedList* list);
 void ll_recursive_display(Node* head);
 int ll_recursive_count(Node* head);
@@ -27,6 +29,7 @@ int ll_min(LinkedList* list);
 int ll_recursive_min(Node* head);
 Node* ll_search(LinkedList* list, int key);
 Node* ll_recursive_search(Node* head, int key);
+Node* ll_search_move_to_head(LinkedList* list, int key);
 void ll_free(LinkedList* list);
 
 int main()
@@ -70,8 +73,33 @@ int main()
     {
         printf("%d is in the list at %p.\n", search, s2);
     }
+    // Node* s3 = ll_search_move_to_head(test_list, search);
+    // if (s3 != NULL)
+    // {
+    //     printf("%d is in the list at %p.\n", search, s3);
+    // }
+    // printf("Display after search move to head operation: \n");
+    // ll_display(test_list);
+    ll_insert(test_list, 6, 3);
+    ll_insert(test_list, 7, 0);
+    ll_insert(test_list, 6, 10);
+    printf("Linked list after insert operation:\n");
+    ll_display(test_list);
+
+    int arr[] = {10,11,12,13};
+    int size = sizeof(arr) / sizeof(int);
+    printf("Size of the array is %d\n", size);
+    ll_add_iter(test_list, arr, size);
+    printf("Adding iteratively to an existing list:\n");
+    ll_display(test_list);
+
+    LinkedList *test_two = ll_create();
+    ll_add_iter(test_two, arr, size);
+    printf("Adding iteratively to a new list:\n");
+    ll_display(test_two);
 
     ll_free(test_list);
+    ll_free(test_two);
 
     return 0;
 }
@@ -248,4 +276,87 @@ Node* ll_recursive_search(Node* head, int key)
         return NULL;
     }
     return key == head->data ? head : ll_recursive_search(head->next, key);
+}
+
+Node* ll_search_move_to_head(LinkedList* list, int key)
+{
+    Node* current = list->head;
+    Node* previous;
+    while (current != NULL)
+    {
+        if (current->data == key)
+        {
+            previous->next = current->next;
+            current->next = list->head;
+            list->head = current;
+            return current;
+        }
+        previous = current;
+        current = current->next;
+    }
+    return NULL;
+}
+
+void ll_insert(LinkedList* list, int value, int position)
+{
+    if (position < 0 || position > list->node_count)
+    {
+        printf("Invalid index for insertion into linked list.\n");
+        return;
+    }
+
+    Node *new, *p;
+    new = (Node*)malloc(sizeof(Node));
+    new->data = value;
+    if (position == 0)
+    {
+        new->next = list->head;
+        list->head = new;
+    }
+    else if (position > 0)
+    {
+        p = list->head;
+        for (int i = 0; i < position - 1 && p; i++)
+        {
+            p = p->next;
+        }
+        if (p)
+        {
+            new->next = p->next;
+            p->next = new;
+        }
+    }
+    list->node_count += 1;
+}
+
+void ll_add_iter(LinkedList* list, int* array, int size)
+{
+    Node *last, *new, *temp;
+    last = NULL;
+    if (list->head != NULL)
+    {
+        temp = list->head;
+        while (temp != NULL)
+        {
+            last = temp;
+            temp = temp->next;
+        }
+    }
+    for (int i = 0; i < size; i++)
+    {
+        new = (Node*)malloc(sizeof(Node));
+        new->data = array[i];
+        new->next = NULL;
+        if (last)
+        {
+            last->next = new;
+            last = new;
+        }
+        else
+        {
+            last = new;
+            list->head = last;
+        }
+        list->node_count++;
+    }
 }
