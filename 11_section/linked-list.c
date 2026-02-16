@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <stdbool.h>
 
 typedef struct Node
 {
@@ -18,6 +19,7 @@ LinkedList* ll_create();
 void ll_add(LinkedList* list, int value);
 void ll_add_iter(LinkedList* list, int* array, int size);
 void ll_insert(LinkedList* list, int value, int position);
+void ll_sorted_insert(LinkedList* list, int value);
 void ll_display(LinkedList* list);
 void ll_recursive_display(Node* head);
 int ll_recursive_count(Node* head);
@@ -31,6 +33,11 @@ Node* ll_search(LinkedList* list, int key);
 Node* ll_recursive_search(Node* head, int key);
 Node* ll_search_move_to_head(LinkedList* list, int key);
 void ll_free(LinkedList* list);
+void ll_delete_node_by_value(LinkedList* list, int value);
+void ll_delete_node_by_index(LinkedList* list, int index);
+bool ll_is_sorted(LinkedList* list);
+bool ll_is_sorted_ascending(LinkedList* list);
+bool ll_is_sorted_descending(LinkedList* list);
 
 int main()
 {
@@ -98,8 +105,32 @@ int main()
     printf("Adding iteratively to a new list:\n");
     ll_display(test_two);
 
+    // lesson 190
+    ll_sorted_insert(test_two, 14);
+    ll_sorted_insert(test_two, 9);
+    printf("Inserting into a sorted list:\n");
+    ll_display(test_two);
+
+    // lesson 192
+    // ll_delete_node_by_index(test_two, 4);
+    // ll_delete_node_by_index(test_two, 1);
+    // ll_delete_node_by_value(test_two, 12);
+    // ll_delete_node_by_value(test_two, 9);
+
+    // lesson 194
+    ll_is_sorted(test_two) ? printf("List is sorted.\n") : printf("List is not sorted.\n");
+
+    LinkedList* test_three = ll_create();
+    int arr2[] = {13,12,10,9,8};
+    ll_add_iter(test_three, arr2, 5);
+    ll_is_sorted(test_three) ? printf("List is sorted.\n") : printf("List is not sorted.\n");
+
+    ll_add(test_three, 20);
+    ll_is_sorted(test_three) ? printf("List is sorted.\n") : printf("List is not sorted.\n");
+
     ll_free(test_list);
     ll_free(test_two);
+    ll_free(test_three);
 
     return 0;
 }
@@ -359,4 +390,160 @@ void ll_add_iter(LinkedList* list, int* array, int size)
         }
         list->node_count++;
     }
+}
+
+void ll_sorted_insert(LinkedList* list, int value)
+{
+    Node *new, *prev, *curr;
+    new = (Node*)malloc(sizeof(Node));
+    new->data = value;
+    
+    if (!list->head)
+    {
+        list->head = new;
+        new->next = NULL;
+        list->node_count++;
+        return;        
+    }
+
+    if (value < list->head->data)
+    {
+        prev = list->head;
+        list->head = new;
+        new->next = prev;
+        list->node_count++;
+        return;
+    }
+
+    curr = list->head;
+
+    while (curr && curr->data < value)
+    {
+        prev = curr;
+        curr = curr->next;
+    }
+
+    new->next = prev->next;
+    prev->next = new;
+    list->node_count++;
+}
+
+void ll_delete_node_by_value(LinkedList* list, int value)
+{
+    Node *prev, *curr;
+    int delete_value;
+
+    if (!list->head)
+    {
+        printf("The linked list is empty. Nothing to delete.\n");
+        return;
+    }
+    
+    else if (list->head->data == value)
+    {
+        delete_value = list->head->data;
+        prev = list->head;
+        list->head = list->head->next;
+        free(prev);
+        printf("%d deleted from list\n", delete_value);
+    }
+
+    else 
+    {
+        curr = list->head;
+        while (curr)
+        {
+            if (curr->data == value)
+            {
+                delete_value = curr->data;
+                prev->next = curr->next;
+                free(curr);
+                printf("%d deleted from list\n", delete_value);
+                break;   
+            }
+            else
+            {
+                prev = curr;
+                curr = curr->next;
+            }
+        }
+    }
+    list->node_count--;
+}
+
+void ll_delete_node_by_index(LinkedList* list, int index)
+{
+    Node *prev, *curr;
+    int delete_value;
+
+    if (!list->head)
+    {
+        printf("The linked list is empty. Nothing to delete.\n");
+        return;
+    }
+    
+    else if (index == 1)
+    {
+        delete_value = list->head->data;
+        prev = list->head;
+        list->head = list->head->next;
+        free(prev);
+        printf("%d deleted at position %d\n", delete_value, index);
+    }
+
+    else 
+    {
+        curr = list->head;
+        for (int i = 0; i < index-1 && curr; i++)
+        {
+            prev = curr;
+            curr = curr->next;
+        }
+        if (curr)
+        {
+            prev->next = curr->next;
+            delete_value = curr->data;
+            free(curr);
+        }
+        printf("%d deleted at position %d\n", delete_value, index);
+    }
+    list->node_count--;
+}
+
+bool ll_is_sorted(LinkedList* list)
+{
+    bool is_sorted = false;
+    is_sorted = ll_is_sorted_ascending(list);
+    if (!is_sorted)
+    {
+        is_sorted = ll_is_sorted_descending(list);
+    }
+    return is_sorted;
+}
+bool ll_is_sorted_ascending(LinkedList* list)
+{
+    Node *temp = list->head;
+    while (temp->next)
+    {
+        if (temp->data > temp->next->data)
+        {
+            return false;
+        }
+        temp = temp->next;
+    }
+    return true;
+}
+
+bool ll_is_sorted_descending(LinkedList* list)
+{
+    Node *temp = list->head;
+    while (temp->next)
+    {
+        if (temp->data < temp->next->data)
+        {
+            return false;
+        }
+        temp = temp->next;
+    }
+    return true;
 }
