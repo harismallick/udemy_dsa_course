@@ -47,6 +47,7 @@ bool ll_is_cyclic(LinkedList* list);
 void circular_ll_display(LinkedList* list);
 void circular_ll_recursive_display(LinkedList* list, Node* p);
 void ll_circular_free_by_address(LinkedList* list);
+Node* ll_get_middle_node(LinkedList* list);
 
 int main()
 {
@@ -210,6 +211,12 @@ int main()
     // lesson 209
     circular_ll_display(cyclic_ll);
     circular_ll_recursive_display(cyclic_ll, cyclic_ll->head);
+
+    // lesson 226 - Find middle node in a LL
+    Node* result = ll_get_middle_node(test_two);
+    printf("The middle node in LL\n");
+    ll_display(test_two);
+    printf("is %d\n", result->data);
 
     ll_free(test_list);
     ll_free(test_two);
@@ -841,4 +848,29 @@ void circular_ll_recursive_display(LinkedList* list, Node* p)
         printf("\n");
     }
     flag = 0;
+}
+
+Node* ll_get_middle_node(LinkedList* list)
+{
+    if (!list->head)
+    {
+        return NULL;
+    }
+    
+    Node *once, *twice;
+    once = twice = list->head;
+
+    while (twice)
+    {
+        twice = twice->next;
+        if (twice)
+        {
+            twice = twice->next;
+        }
+        if (twice)
+        {
+            once = once->next;
+        }
+    }
+    return once;
 }
